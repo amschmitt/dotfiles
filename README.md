@@ -1,0 +1,7 @@
+# .dotfiles
+
+```
+$ git clone user@github.com/amschmitt/dotfiles.git --recursive
+$ cd .dotfiles
+$ ./install
+```
