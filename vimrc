@@ -17,6 +17,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'chriskempson/base16-vim'
 
+" Symlink following for VIM
+Plug 'moll/vim-bbye'
+Plug 'aymericbeaumet/vim-symlink'
+
 " nerdtree
 Plug 'scrooloose/nerdtree'
 
