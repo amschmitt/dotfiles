@@ -33,6 +33,10 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'vimwiki/vimwiki'
 
+" Vim functionality
+
+Plug 'tpope/vim-surround'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""
@@ -53,6 +57,9 @@ set ignorecase
 
 " show last command in bottom-right
 set showcmd
+
+" yanking/pasting should work from windows clipboard
+set clipboard+=unnamed
 
 
 """"""""""""""""""""""""""""""""

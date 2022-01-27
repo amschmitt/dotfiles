@@ -1,0 +1,8 @@
+nmap <space>h <Action>(Back)
+nmap <space>l <Action>(Forward)
+
+nmap <space>u <Action>(FindUsages)
+nmap <space>k <Action>(GotoImplementation)
+nmap <space>J <Action>(GotoDeclaration)
+
+set clipboard+=unnamed
