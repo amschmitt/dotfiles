@@ -112,6 +112,13 @@ filetype indent on
 " modern backspace behavior
 set backspace=indent,eol,start
 
+""""""""""""""""""""""""""""""""
+" Cursor
+""""""""""""""""""""""""""""""""
+
+let &t_SI = "\<esc>[6 q"  " blinking I-beam in insert mode
+let &t_SR = "\<esc>[4 q"  " blinking underline in replace mode
+let &t_EI = "\<esc>[2 q"  " default cursor (usually blinking block) otherwise
 
 """"""""""""""""""""""""""""""""
 " vimwiki
