@@ -1,4 +1,4 @@
-
+""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""
 
@@ -13,7 +13,6 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Visual/aesthetic
-
 Plug 'vim-airline/vim-airline'
 Plug 'chriskempson/base16-vim'
 
@@ -25,17 +24,27 @@ Plug 'aymericbeaumet/vim-symlink'
 Plug 'scrooloose/nerdtree'
 
 " git
-
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" Vimwiki
+" language packs (for now, just polyglot)
+Plug 'sheerun/vim-polyglot'
 
+" Vimwiki
 Plug 'vimwiki/vimwiki'
 
 " Vim functionality
-
 Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter' " comment lines out
+Plug 'jiangmiao/auto-pairs' " automatically create closing braces/brackets etc.
+
+" Trial plugins
+" to investigate: vim-syntastic/syntastic
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'webastien/vim-ctags'
 
 call plug#end()
 
@@ -69,6 +78,12 @@ set clipboard+=unnamed
 " leader is comma
 let mapleader=","
 
+""""""""""""""""""""""""""""""""
+" ctags
+""""""""""""""""""""""""""""""""
+map <silent> <space>j :call DisplayTag()<CR>
+map <silent> <space>k :call DisplayGivenTag()<CR>
+nnoremap <silent> <space>r :call RebuildTags()<CR>
 
 """"""""""""""""""""""""""""""""
 " Colors and Fonts
@@ -111,6 +126,9 @@ filetype indent on
 
 " modern backspace behavior
 set backspace=indent,eol,start
+
+" no \r
+set fileformat=unix
 
 """"""""""""""""""""""""""""""""
 " Cursor
