@@ -1,4 +1,9 @@
 """"""""""""""""""""""""""""""""
+" VIMRC
+""""""""""""""""""""""""""""""""
+set nocompatible
+
+""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""
 
@@ -26,9 +31,11 @@ Plug 'scrooloose/nerdtree'
 " git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'github/copilot.vim'
 
-" language packs (for now, just polyglot)
-Plug 'sheerun/vim-polyglot'
+" language packs
+Plug 'hashivim/vim-terraform'
+Plug 'iamcco/markdown-preview', { 'do': 'cd app && yarn install' }
 
 " Vimwiki
 Plug 'vimwiki/vimwiki'
@@ -39,12 +46,16 @@ Plug 'scrooloose/nerdcommenter' " comment lines out
 Plug 'jiangmiao/auto-pairs' " automatically create closing braces/brackets etc.
 
 " Trial plugins
-" to investigate: vim-syntastic/syntastic
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-Plug 'webastien/vim-ctags'
+Plug 'dense-analysis/ale'
+
+Plug 'webastien/vim-ctags' " ctags
+Plug 'preservim/tagbar' " 'structure' view for tags
+
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 call plug#end()
 
@@ -69,6 +80,14 @@ set showcmd
 
 " yanking/pasting should work from windows clipboard
 set clipboard+=unnamed
+" WSL yank support
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+    augroup END
+endif
 
 
 """"""""""""""""""""""""""""""""
@@ -77,6 +96,14 @@ set clipboard+=unnamed
 
 " leader is comma
 let mapleader=","
+
+" really cool find/replace behavior
+"  local replace for normal languages with braces defining scoping
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+"  local replace for python, scoped to functions (not inner scopes like if/for)
+nnoremap <space>p gd[[V]]::s/<C-R>///gc<left><left><left>
+"  global replace
+nnoremap gR gD:s/<C-R>///gc<left><left><left>
 
 """"""""""""""""""""""""""""""""
 " ctags
@@ -104,6 +131,41 @@ colorscheme base16-twilight
 set background=dark
 
 """"""""""""""""""""""""""""""""
+" ALE
+""""""""""""""""""""""""""""""""
+
+" enable ALE to autofix on file save
+let g:ale_fix_on_save = 1
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_linters = {
+\   'python': ['pylint', 'mypy']
+\}
+
+let g:ale_fixers = {
+\   '*': ['trim_whitespace'],
+\   'python': ['black'],
+\   'terraform': ['terraform'],
+\   'json': ['fixjson']
+\}
+
+" enable autocompletion where available
+let g:ale_completion_enabled = 1
+
+" for python, disable ALE's autodetection of virtual envs, which is based
+" on the current directory somehow. This config will force ALE to use the
+" env var $VIRTUAL_ENV
+let g:ale_virtualenv_dir_names = []
+
+""""""""""""""""""""""""""""""""
+" Python VirtualEnv
+""""""""""""""""""""""""""""""""
+
+" point VIM to global Python executable
+" or, try to use $VIRTUAL_ENV?
+let g:python3_host_prog="$VIRTUAL_ENV/bin/python3"
+
+""""""""""""""""""""""""""""""""""
 " Text and Indentation
 """"""""""""""""""""""""""""""""
 
@@ -123,6 +185,7 @@ set si
 
 " enable filetype-specific indentation
 filetype indent on
+filetype plugin indent on
 
 " modern backspace behavior
 set backspace=indent,eol,start
